@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration monitorInterval="60" status="WARN">
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%m%n"/>
+        </Console>
+    </Appenders>
+
+    <loggers>
+        <root level="ALL">
+            <appender-ref ref="STDOUT" />
+        </root>
+    </loggers>
+
+</configuration>
