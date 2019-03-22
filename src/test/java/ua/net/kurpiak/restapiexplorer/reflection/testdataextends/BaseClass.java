@@ -1,7 +1,7 @@
-package ua.net.kurpiak.restapiexplorer.reflection.testdata.pckg_1;
+package ua.net.kurpiak.restapiexplorer.reflection.testdataextends;
 
 import ua.net.kurpiak.restapiexplorer.meta.ApiDescription;
 
 @ApiDescription(path = "test")
-public class Class1 {
+public class BaseClass {
 }

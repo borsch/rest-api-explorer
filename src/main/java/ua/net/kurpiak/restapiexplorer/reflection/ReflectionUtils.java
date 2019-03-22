@@ -5,10 +5,13 @@ import org.apache.logging.log4j.Logger;
 import ua.net.kurpiak.restapiexplorer.utils.Assertions;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 public class ReflectionUtils {
 
@@ -18,6 +21,11 @@ public class ReflectionUtils {
 
     private static final String FILE_SEPARATOR = "/";
 
+    /**
+     * Get all classes in passed package
+     * @param packageName - package name to be scanned
+     * @return list of {@code Class}'es inside package and all nested packages
+     */
     public static List<Class<?>> getAllClassesInPackage(final String packageName) {
         Assertions.notNull(packageName, "Package name can't be null");
         List<Class<?>> classes = new ArrayList<>();
@@ -64,6 +72,19 @@ public class ReflectionUtils {
         }
 
         return classes;
+    }
+
+    public static List<Class<?>> getAllClassesWithAnnotation(final List<Class<?>> classes, final Class<? extends Annotation> annotation) {
+        return classes.stream()
+            .filter(clazz -> clazz.isAnnotationPresent(annotation))
+            .collect(toList());
+    }
+
+    public static <T extends Annotation> T getAnnotation(Class<?> clazz, Class<T> annotation) {
+        Assertions.notNull(clazz, "Class can't be null");
+        Assertions.notNull(annotation, "Annotation can't be null");
+
+        return clazz.getAnnotation(annotation);
     }
 
     private static boolean isClassFile(File file) {
