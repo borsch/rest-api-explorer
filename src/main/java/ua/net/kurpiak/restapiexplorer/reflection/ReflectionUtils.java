@@ -1,7 +1,8 @@
-package ua.net.kurpiak.restapiexplorer.utils;
+package ua.net.kurpiak.restapiexplorer.reflection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ua.net.kurpiak.restapiexplorer.utils.Assertions;
 
 import java.io.File;
 import java.net.URL;

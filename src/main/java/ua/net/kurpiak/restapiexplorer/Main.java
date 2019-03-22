@@ -1,6 +1,6 @@
 package ua.net.kurpiak.restapiexplorer;
 
-import ua.net.kurpiak.restapiexplorer.utils.ReflectionUtils;
+import ua.net.kurpiak.restapiexplorer.reflection.ReflectionUtils;
 
 import java.util.List;
 
