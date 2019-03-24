@@ -2,15 +2,16 @@ package ua.net.kurpiak.restapiexplorer.reflection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ua.net.kurpiak.restapiexplorer.pojo.MethodDescription;
 import ua.net.kurpiak.restapiexplorer.utils.Assertions;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 public class ReflectionUtils {
@@ -85,6 +86,20 @@ public class ReflectionUtils {
         Assertions.notNull(annotation, "Annotation can't be null");
 
         return clazz.getAnnotation(annotation);
+    }
+
+    public static <T extends Annotation> List<MethodDescription<T>> getAllMethodsWithAnnotation(Class<?> clazz, Class<T> annotation) {
+        Method[] methods = clazz.getMethods();
+        if (methods == null || methods.length == 0) {
+            LOGGER.warn("Class [{}] has no public methods", clazz.getName());
+
+            return emptyList();
+        }
+
+        return Arrays.stream(methods)
+                     .filter(method -> method.isAnnotationPresent(annotation))
+                     .map(method -> new MethodDescription<>(method, method.getAnnotation(annotation)))
+                     .collect(toList());
     }
 
     private static boolean isClassFile(File file) {

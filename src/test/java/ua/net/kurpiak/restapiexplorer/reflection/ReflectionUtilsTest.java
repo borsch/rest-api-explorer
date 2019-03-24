@@ -6,6 +6,10 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import ua.net.kurpiak.restapiexplorer.meta.ApiDescription;
+import ua.net.kurpiak.restapiexplorer.meta.ApiEndpoint;
+import ua.net.kurpiak.restapiexplorer.pojo.MethodDescription;
+import ua.net.kurpiak.restapiexplorer.reflection.methods.ClassWithMethods;
+import ua.net.kurpiak.restapiexplorer.reflection.methods.ClassWithoutMethods;
 import ua.net.kurpiak.restapiexplorer.reflection.testdata.pckg_1.Class1;
 import ua.net.kurpiak.restapiexplorer.reflection.testdata.pckg_1.Class2;
 import ua.net.kurpiak.restapiexplorer.reflection.testdata.pckg_1.sub_pckg_1.SubClass1;
@@ -15,6 +19,7 @@ import ua.net.kurpiak.restapiexplorer.reflection.testdataextends.ChildClassAnnot
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertThat;
@@ -85,6 +90,20 @@ public class ReflectionUtilsTest {
         assertThat(annotation, notNullValue());
         assertThat(annotation.path(), is("test"));
         assertThat(annotation.description(), is(""));
+    }
+
+    @Test
+    public void testCanGetAnnotatedMethods() {
+        List<MethodDescription<ApiEndpoint>> methods = ReflectionUtils.getAllMethodsWithAnnotation(ClassWithMethods.class, ApiEndpoint.class);
+
+        assertThat(methods, hasSize(2));
+    }
+
+    @Test
+    public void testClassWithoutPublicMethods() {
+        List<MethodDescription<ApiEndpoint>> methods = ReflectionUtils.getAllMethodsWithAnnotation(ClassWithoutMethods.class, ApiEndpoint.class);
+
+        assertThat(methods, is(emptyList()));
     }
 
 }
