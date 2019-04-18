@@ -23,13 +23,27 @@
                 <ul class="collapsible">
                     <#list controllers as ctrl>
                         <li>
-                            <div class="collapsible-header">${ctrl.name}</div>
-                            <div class="collapsible-body" style="padding: 0;">
+                            <div class="collapsible-header method-description">
+                                <p>
+                                    <strong>${ctrl.name} (${ctrl.apiDescription.path()})</strong>
+                                </p>
+                                <p class="endpoint-description">
+                                    ${ctrl.apiDescription.description()}
+                                </p>
+                            </div>
+                            <div class="collapsible-body">
                                 <ul class="collapsible">
                                     <#list ctrl.endpoints as endpoint>
                                         <li>
-                                            <div class="collapsible-header"><strong>${endpoint.annotation.path()} : HTTP ${endpoint.annotation.method()}</strong></div>
-                                            <div class="collapsible-body">
+                                            <div class="collapsible-header method-description">
+                                                <p>
+                                                    <strong>${endpoint.annotation.path()} : HTTP ${endpoint.annotation.method()}</strong>
+                                                </p>
+                                                <p class="endpoint-description">
+                                                    ${endpoint.annotation.description()}
+                                                </p>
+                                            </div>
+                                            <div class="collapsible-body method-body">
 
                                             </div>
                                         </li>
