@@ -11,3 +11,5 @@ target/
 *.jar
 *.war
 *.ear
+
+sample.html

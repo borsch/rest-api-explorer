@@ -13,7 +13,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.joining;
 
@@ -23,6 +25,8 @@ public class UiBuilder {
 
     private static final String ROOT_DIR = "/rest-api-explorer";
 
+    private static final String MAIN_PAGE_TEMPLATE = "page.ftlh";
+
     private static final String TEMPLATE_LOAD_ERROR = "Can't load template";
 
     private static final String TEMPLATE_PROCESSING_ERROR = "Can't process template";
@@ -31,10 +35,13 @@ public class UiBuilder {
         Configuration configuration = initFreemarker();
 
         try {
-            Template template = configuration.getTemplate("page.ftlh");
+            Map model = Stream
+                .of(new Object[][]{
+                    {"controllers", controllers}
+                })
+                .collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
-            Writer writer = new OutputStreamWriter(System.out);
-            template.process(new HashMap<>(), writer);
+            renderHtml(configuration.getTemplate(MAIN_PAGE_TEMPLATE), model);
         } catch (IOException e) {
             LOGGER.error(TEMPLATE_LOAD_ERROR, e);
             throw new RuntimeException(TEMPLATE_LOAD_ERROR, e);
@@ -42,6 +49,11 @@ public class UiBuilder {
             LOGGER.error(TEMPLATE_PROCESSING_ERROR, e);
             throw new RuntimeException(TEMPLATE_PROCESSING_ERROR, e);
         }
+    }
+
+    private static void renderHtml(Template template, Map model) throws IOException, TemplateException {
+        FileWriter writer = new FileWriter(new File("sample.html"));
+        template.process(model, writer);
     }
 
     private static Configuration initFreemarker() {

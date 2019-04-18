@@ -11,7 +11,7 @@ public class Assertions {
     }
 
     public static void notEmpty(String s, String message) {
-        if (s == null || s.isEmpty()) {
+        if (isEmpty(s)) {
             throw new IllegalArgumentException(message);
         }
     }
@@ -20,6 +20,10 @@ public class Assertions {
         if (collection == null || collection.isEmpty()) {
             throw new IllegalArgumentException(message);
         }
+    }
+
+    public static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
     }
 
 }
