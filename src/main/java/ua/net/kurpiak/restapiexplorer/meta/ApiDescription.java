@@ -17,6 +17,13 @@ public @interface ApiDescription {
     String path();
 
     /**
+     * Name of this controller
+     * If names is empty or null then class name will be used
+     * @return
+     */
+    String name() default "";
+
+    /**
      * human readable description of what this controller do
      * @return human readable description
      */

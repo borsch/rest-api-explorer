@@ -1,6 +1,7 @@
 package ua.net.kurpiak.restapiexplorer.pojo;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 public class MethodDescription<T> {
 
@@ -21,7 +22,27 @@ public class MethodDescription<T> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MethodDescription<?> that = (MethodDescription<?>) o;
+        return Objects.equals(method, that.method) && Objects.equals(annotation, that.annotation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(method, annotation);
+    }
+
+    @Override
     public String toString() {
-        return "MethodDescription{" + "method=" + method + ", annotation=" + annotation + '}';
+        return "\n\t\tMethodDescription:"
+               + "\n\t\t\tmethod=" + method
+               + "\n\t\t\tannotation=" + annotation
+               + "\n";
     }
 }
